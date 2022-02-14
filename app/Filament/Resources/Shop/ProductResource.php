@@ -107,6 +107,7 @@ class ProductResource extends Resource
                     $layout::make()
                         ->schema([
                             SpatieMediaLibraryFileUpload::make('media')
+                                ->disk('public')
                                 ->collection('product-images')
                                 ->multiple()
                                 ->minFiles(2)
