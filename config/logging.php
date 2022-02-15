@@ -49,8 +49,9 @@ return [
 
     'channels' => [
         'stack' => [
+            'name' => env('APP_ENV', 'staging'),
             'driver' => 'stack',
-            'channels' => ['daily', 'flare'],
+            'channels' => ['daily', 'papertrail', 'flare'],
             'ignore_exceptions' => false,
         ],
 
