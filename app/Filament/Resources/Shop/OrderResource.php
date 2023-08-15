@@ -222,7 +222,13 @@ class OrderResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('shop_product_id')
                             ->label('Product')
-                            ->options(Product::query()->pluck('name', 'id'))
+                            ->options(function (Forms\Get $get, $state) {
+                                // only show options which are not selected in other repeat instances
+                                return Product::query()->whereNotIn(
+                                    'id',
+                                    collect($get('../../items'))->pluck('shop_product_id')->diff([$state])
+                                )->pluck('name', 'id');
+                            })
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('unit_price', Product::find($state)?->price ?? 0))
